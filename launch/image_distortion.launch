@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+
+<launch>
+    
+    <!-- image_distortion node -->
+    <node   
+        pkg="image_distortion"
+        type="image_distortion"
+        name="image_distortion"
+        output="screen">
+    </node>      
+    
+    <!-- input image view -->
+    <node 
+        name="image_view_input"
+        pkg="image_view"
+        type="image_view" >
+        <remap from="/image" to="/image_distortion/image_raw" />
+        <param name="autosize" value="true" />
+    </node>
+
+    <!-- image rectification -->
+    <node 
+        name="image_proc"
+        pkg="image_proc"
+        type="image_proc" >
+        <remap from="/image_raw" to="/image_distortion/image_raw" />
+        <remap from="/camera_info" to="/image_distortion/camera_info" />
+    </node>
+
+    <!-- input image view -->
+    <node 
+        name="image_view_rect"
+        pkg="image_view"
+        type="image_view" >
+        <remap from="/image" to="/image_rect" />
+        <param name="autosize" value="true" />
+    </node>
+    
+</launch>
+
